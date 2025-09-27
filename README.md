@@ -1,6 +1,6 @@
 # Alientek I.MX6ULL Mini Box
 
-[![Status](https://img.shields.io/badge/status-in_progress-green)](https://github.com/your-username/imx6ull-mini-box)[![Platform](https://img.shields.io/badge/platform-I.MX6ULL-orange)](https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-6-processors/i-mx-6ull-single-core-processor-with-arm-cortex-a7-core:i.MX6ULL)
+[![Status](https://img.shields.io/badge/status-in_progress-green)](https://github.com/your-username/imx6ull-mini-box) [![Platform](https://img.shields.io/badge/platform-I.MX6ULL-orange)](https://www.nxp.com/products/processors-and-microcontrollers/arm-processors/i-mx-applications-processors/i-mx-6-processors/i-mx-6ull-single-core-processor-with-arm-cortex-a7-core:i.MX6ULL)
 
 这是一个为**正点原子 I.MX6ULL Mini 开发板**创建的嵌入式 Linux 学习工作区。
 
