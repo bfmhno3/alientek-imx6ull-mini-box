@@ -36,6 +36,7 @@
 
 ```bash
 git clone https://github.com/bfmhno3/alientek-imx6ull-mini-box.git
+git lfs install
 cd alientek-imx6ull-mini-box
 ```
 
