@@ -5,9 +5,11 @@
 ## 汇编器的本质与工作流
 
 GNU Assembler（简称 `as`）的核心工作流可以用以下公式概括：
+
 $$
 \text{源代码 (.s)} \xrightarrow{\text{汇编器 (as)}} \text{可重定位目标文件 (.o)}
 $$
+
 生成的 `.o` 文件主要由 **Section**（段）和 **Symbol Table**（符号表）组成。我们常用的 GAS 伪指令（Directives/Pseudo-ops），其根本目的就是为了控制这两个核心要素的生成。
 
 从本质上来说，GNU Assembler 的核心职能并非简单的 “代码翻译”，而是**内存空间的规划**与**符号地址的解析**。
@@ -36,8 +38,6 @@ GAS 语法的核心难点在于不同架构下对**操作数方向**的处理，
 > 推荐直接查阅 "[Machine Dependent Features](https://sourceware.org/binutils/docs/as/Machine-Dependencies.html)" 文档，官方通用的 "[Comments](https://sourceware.org/binutils/docs/as/Comments.html)" 文档包含大量历史遗留信息，较为混乱。
 
 **多行注释**在所有架构中是通用的，沿用了 C 语言风格：
-
-代码段
 
 ```assembly
 /*
@@ -195,9 +195,11 @@ offset(base, index, scale)
 ```
 
 **计算公式**：
+
 $$
 \text{Address} = \text{base} + (\text{index} \times \text{scale}) + \text{offset}
 $$
+
 **应用场景**：这非常适合访问数组。例如 `array[i]`，其中 `base` 是数组首地址，`index` 是变量 `i`，`scale` 是元素大小（如 `int` 为 4）。
 
 ```assembly
@@ -231,10 +233,10 @@ offset(base)
 ```
 
 **计算公式**：
+
 $$
 \text{Address} = \text{base} + \text{offset}
 $$
-
 
 **如何访问大范围地址？**
 
@@ -274,10 +276,10 @@ x86 是变长指令集，且寄存器存在嵌套关系（`RAX` 包含 `EAX` 包
 虽然现代汇编器有时能根据寄存器名字（如 `%eax`）推断出你是想操作 32 位，但在涉及内存操作数（无法看出大小）或立即数时，不写后缀极易报错。
 
 ```assembly
-movb $0xFF, %al      # 移动 1 个字节 (8-bit)
-movw $0xFFFF, %ax    # 移动 1 个字   (16-bit)
-movl $0xFFFFFFFF, %eax # 移动 1 个长字 (32-bit)
-movq $1, %rax        # 移动 1 个四字 (64-bit)
+movb $0xFF, %al      	# 移动 1 个字节 (8-bit)
+movw $0xFFFF, %ax    	# 移动 1 个字   (16-bit)
+movl $0xFFFFFFFF, %eax	# 移动 1 个长字 (32-bit)
+movq $1, %rax        	# 移动 1 个四字 (64-bit)
 
 # 歧义示例：
 # mov $0, (%rbx)     # 错误！汇编器不知道你想把 rb 指向的内存清零 1 个字节还是 8 个字节。
