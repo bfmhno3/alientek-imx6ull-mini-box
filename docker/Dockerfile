@@ -1,40 +1,69 @@
-# 设置基础镜像
+# 阶段 1：准备工具链
+FROM debian:bullseye-slim AS builder
+
+RUN apt-get update && apt-get install -y xz-utils && rm -rf /var/lib/apt/lists/*
+
+COPY archives/ /tmp/archives
+
+# 解压 GCC 工具链
+RUN tar -xvf /tmp/archives/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz -C /opt/ \
+    && mv /opt/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf /opt/gcc-arm
+# 准备 imxdownload 工具
+RUN mkdir -p /opt/imx-tools \
+    && cp /tmp/archives/imxdownload /opt/imx-tools/ \
+    && chmod +x /opt/imx-tools/imxdownload
+
+# 阶段 2：最终镜像
 FROM ubuntu:16.04
 LABEL authors="bfmhno3" website="https://github.com/bfmhnmo3/alientek-imx6ull-mini-box"
 
-# 设置非交互式安装，防止安装过程卡住
-ENV DEBIAN_FRONTEND=noninteractive
+# 设置基础环境变量
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8
 
-# 更新软件包并安装必要工具
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y \
-    wget \
-    curl \
+# 安装编译环境必要的依赖库
+RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
-    git \
     vim \
+    bc \
+    sudo \
+    lzop \
+    libncurses5-dev \
+    libssl-dev \
+    flex \
+    bison \
+    file \
     && rm -rf /var/lib/apt/lists/*
 
-# 设置工作目录（移除多余的反斜杠）
-WORKDIR /opt
+# 拷贝工具链
+COPY --from=builder /opt/gcc-arm /opt/gcc-arm
+COPY --from=builder /opt/imx-tools /opt/imx-tools
 
-# 复制并解压交叉编译工具链（简化 COPY 语法）
-COPY archives/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz /tmp/
-RUN cd /tmp && \
-    tar -xf gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz && \
-    mv gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf /opt/gcc-arm && \
-    rm -f /tmp/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz
-
-# 设置交叉编译工具链环境变量
-ENV PATH="/opt/gcc-arm/bin:${PATH}"
-ENV CC=arm-linux-gnueabihf-gcc
-ENV CXX=arm-linux-gnueabihf-g++
-ENV AR=arm-linux-gnueabihf-ar
-ENV STRIP=arm-linux-gnueabihf-strip
+# 设置交叉编译环境变量
+ENV PATH="/opt/gcc-arm/bin:/opt/imx-tools:${PATH}" \
+    ARCH=arm \
+    CROSS_COMPILE=arm-linux-gnueabihf- \
+    CC=arm-linux-gnueabihf-gcc \
+    CXX=arm-linux-gnueabihf-g++ \
+    CPP=arm-linux-gnueabihf-cpp \
+    FC=arm-linux-gnueabihf-gfortran \
+    LD=arm-linux-gnueabihf-ld \
+    AR=arm-linux-gnueabihf-ar \
+    RANLIB=arm-linux-gnueabihf-ranlib \
+    GDB=arm-linux-gnueabihf-gdb \
+    NM=arm-linux-gnueabihf-nm \
+    STRIP=arm-linux-gnueabihf-strip \
+    OBJCOPY=arm-linux-gnueabihf-objcopy \
+    OBJDUMP=arm-linux-gnueabihf-objdump \
+    SIZE=arm-linux-gnueabihf-size \
+    STRINGS=arm-linux-gnueabihf-strings \
+    ADDR2LINE=arm-linux-gnueabihf-addr2line \
+    READELF=arm-linux-gnueabihf-readelf \
+    GCOV=arm-linux-gnueabihf-gcov \
+    ELFEDIT=arm-linux-gnueabihf-elfedit
 
 # 创建工作目录
-WORKDIR /workspace
+WORKDIR /project
 
 # 设置默认命令
 CMD ["/bin/bash"]
