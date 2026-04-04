@@ -17,14 +17,13 @@
 
 ```bash
 .
+├── 01_bare_metal/        # 裸机开发
+├── 02_bootloader/        # U-Boot 移植
+├── 03_linux_kernel/      # Linux 内核移植与编译
+├── 04_rootfs/            # 根文件系统构建 (Buildroot/BusyBox)
+├── 05_linux_driver/      # Linux 驱动开发
+├── 07_qt_app/            # Qt 应用程序
 ├── docker/               # Docker 开发环境
-├── 01-bare-metal/        # 裸机开发
-├── 02-bootloader/        # U-Boot 移植
-├── 03-linux-kernel/      # Linux 内核移植与编译
-├── 04-linux-driver/      # Linux 驱动开发
-├── 05-rootfs/            # 根文件系统构建 (Buildroot/BusyBox)
-├── 06-qt-app/            # Qt 应用程序
-├── 07-misc-app/          # 其他 Linux 应用
 ├── docs/                 # 学习笔记与文档
 ├── tools/                # 实用工具脚本
 └── README.md
@@ -55,30 +54,5 @@ docker run -it --name imx6ull-dev alientek-imx6ull:latest
 ### 4. 开始编码
 
 现在你已经在一个包含了所有工具的 Ubuntu 环境中了，可以开始你的嵌入式之旅了！
-
-## 🎯 学习路线图
-
-- [ ] **Phase 1: 裸机开发****
-  - [ ] LED, Beeper, Key, UART
-
-- [ ] **Phase 2: U-Boot & Kernel****
-
-  - [ ] 编译和移植 U-Boot
-
-  - [ ] 编译和移植 Linux Kernel
-
-- [ ] **Phase 3: 文件系统与驱动****
-
-  - [ ] 使用 Buildroot/Busybox 构建根文件系统
-
-  - [ ] 编写第一个字符设备驱动
-
-- [ ] **Phase 4: 应用开发****
-
-  - [ ] 交叉编译 C/C++ 应用
-
-  - [ ] 移植和开发 Qt 应用
-
----
 
 **Happy Hacking!**
