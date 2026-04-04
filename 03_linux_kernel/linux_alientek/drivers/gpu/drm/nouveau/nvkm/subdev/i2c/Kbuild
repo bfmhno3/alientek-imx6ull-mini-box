@@ -1,6 +1,6 @@
 nvkm-y += nvkm/subdev/i2c/base.o
 nvkm-y += nvkm/subdev/i2c/anx9805.o
-nvkm-y += nvkm/subdev/i2c/aux.o
+nvkm-y += nvkm/subdev/i2c/auxch.o
 nvkm-y += nvkm/subdev/i2c/bit.o
 nvkm-y += nvkm/subdev/i2c/pad.o
 nvkm-y += nvkm/subdev/i2c/padnv04.o
