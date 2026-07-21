@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="CMakePythonSetting">
-    <option name="pythonIntegrationState" value="YES" />
-  </component>
-  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$/01_bare_mental/05_led_with_c_and_bsp">
-    <contentRoot DIR="$PROJECT_DIR$" />
-  </component>
-</project>
